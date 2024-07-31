@@ -134,17 +134,17 @@ end
 Y=size(D,1);
 T=size(D,2);  
 
-% load background if available, for G0 correction
-[filenamepatt,pathnamepatt, filterindex] = uigetfile({'*.mat'},'Load background file?');
-if filenamepatt ~= 0
-filenamefullpatt = [pathnamepatt, filenamepatt];   
-load( [filenamefullpatt], 'Iav', 'Hav' ) ;
-Ibkgd=Iav;
-Gbkgdt=Hav;
-else
-    Ibkgd=0;
-    Gbkgdt=0;
-end   
+% % load background if available, for G0 correction
+% [filenamepatt,pathnamepatt, filterindex] = uigetfile({'*.mat'},'Load background file?');
+% if filenamepatt ~= 0
+% filenamefullpatt = [pathnamepatt, filenamepatt];   
+% load( [filenamefullpatt], 'Iav', 'Hav' ) ;
+% Ibkgd=Iav;
+% Gbkgdt=Hav;
+% else
+%     Ibkgd=0;
+%     Gbkgdt=0;
+% end   
 
 
 
@@ -234,7 +234,8 @@ Hav(kk) =  mean(Htemp(maskseg>0));
 end
 Iav=mean(I(maskseg>0));
 G0=Hav(1);
-factor = (1 - (Gbkgdt/G0)*(Ibkgd/Iav)^2) / (1 - Ibkgd/Iav )^2  ;  % correction factor in presence of background 
+factor = 1;
+% factor = (1 - (Gbkgdt/G0)*(Ibkgd/Iav)^2) / (1 - Ibkgd/Iav )^2  ;  % correction factor in presence of background 
 % seg1=segmin;
 % seg2=maxseg;
 
@@ -284,8 +285,8 @@ if filenamepatt ~= 0
 ACFout1corr=cat(2, taulog' , Havcorr');
 dlmwrite([filenamenoext,'_ACF_corr',tag,'_',Type,'.txt'],ACFout1corr,'delimiter',';','precision',4);
 end
-%save data in Matlab
-save([filenamenoext,'.mat'] ,  'Iav' , 'Hav' );
+% %save data in Matlab
+% save([filenamenoext,'.mat'] ,  'Iav' , 'Hav' );
 
 
 %save images
